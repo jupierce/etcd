@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 ROOT_MODULE="go.etcd.io/etcd"
 
 if [[ "$(go list)" != "${ROOT_MODULE}/v3" ]]; then
