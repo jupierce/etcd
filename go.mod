@@ -96,4 +96,5 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	sigs.k8s.io/yaml v1.2.0 // indirect
 	go.etcd.io/gofail v0.2.0 // indirect
+	github.com/urfave/cli v1.22.4 // indirect
 )
