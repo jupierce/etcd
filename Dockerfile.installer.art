@@ -4,15 +4,16 @@
 FROM registry.ci.openshift.org/ocp/builder:rhel-9-golang-1.22-openshift-4.18 AS macbuilder
 
 ENV GO_COMPLIANCE_EXCLUDE=".*"
-COPY $REMOTE_SOURCES $REMOTE_SOURCES_DIR
-WORKDIR $REMOTE_SOURCES_DIR/cachito-gomod-with-deps/app
-RUN cat $REMOTE_SOURCES_DIR/cachito-gomod-with-deps/cachito.env
-RUN mkdir -p /go/src/go.etcd.io/
-RUN ln -s $REMOTE_SOURCES_DIR/cachito-gomod-with-deps/app /go/src/go.etcd.io/etcd
+
+# COPY $REMOTE_SOURCES $REMOTE_SOURCES_DIR
+# WORKDIR $REMOTE_SOURCES_DIR/cachito-gomod-with-deps/app
+# RUN cat $REMOTE_SOURCES_DIR/cachito-gomod-with-deps/cachito.env
+
 WORKDIR /go/src/go.etcd.io/etcd
 COPY . .
-RUN source $REMOTE_SOURCES_DIR/cachito-gomod-with-deps/cachito.env \
-	&& export GOFLAGS='-mod=readonly' && export GO_BUILD_FLAGS='-v' \
+
+RUN find $GOPATH
+RUN export GOFLAGS='-mod=readonly' && export GO_BUILD_FLAGS='-v' \
 	&& CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 ./build.sh
 
 FROM registry.ci.openshift.org/ocp/builder:rhel-9-golang-1.22-openshift-4.18 AS macarmbuilder
